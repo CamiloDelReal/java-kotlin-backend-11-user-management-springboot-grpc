@@ -1,0 +1,59 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option java_package = "org.xapps.services.proto.users";
+option java_outer_classname = "UsersGrpcProto";
+option java_multiple_files = true;
+
+
+service Users {
+  rpc login ( LoginRequest ) returns ( Authorization ) {}
+  rpc readUsers ( google.protobuf.Empty ) returns ( stream UserResponse ) {}
+  rpc readUser ( UserReadRequest ) returns ( UserResponse ) {}
+  rpc createUser ( UserCreateRequest ) returns ( UserResponse ) {}
+  rpc updateUser ( UserUpdateRequest ) returns ( UserResponse ) {}
+  rpc deleteUser ( UserDeleteRequest ) returns ( google.protobuf.Empty ) {}
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message Authorization {
+  string type = 1;
+  string token = 2;
+  int64 expiration = 3;
+}
+
+message UserReadRequest {
+  int64 id = 1;
+}
+
+message UserCreateRequest {
+  string name = 1;
+  optional string lastname = 2;
+  string email = 3;
+  string password = 4;
+  repeated string roles = 5;
+}
+
+message UserUpdateRequest {
+  int64 id = 1;
+  string name = 2;
+  optional string lastname = 3;
+  string email = 4;
+  string password = 5;
+  repeated string roles = 6;
+}
+
+message UserDeleteRequest {
+  int64 id = 1;
+}
+
+message UserResponse {
+  int64 id = 1;
+  string name = 2;
+  string lastname = 3;
+  string email = 4;
+  repeated string roles = 5;
+}
